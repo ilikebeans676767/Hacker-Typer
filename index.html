@@ -43,10 +43,14 @@
     }
     .left-section {
       display: flex;
-      flex: 1;
+      flex-direction: row;
+      flex: none;
       min-width: 0;
       min-height: 0;
       position: relative;
+      background: #23272e;
+      width: 60%;
+      transition: width 0.2s;
     }
     .gutter {
       color: #4b5363;
@@ -75,7 +79,7 @@
     }
     .panel.active { display: block; }
     .console-panel {
-      width: 375px;
+      width: 40%;
       background: #191A1C;
       color: #21eb1a;
       border-left: 1px solid #333;
@@ -83,11 +87,10 @@
       overflow-y: auto;
       min-height: 0;
       box-sizing: border-box;
-      display: none;
+      display: block;
       padding: 18px;
       font-family: "Menlo", "Consolas", "Monaco", "Courier New", monospace;
     }
-    .console-panel.active { display: block; }
     /* Syntax highlight tokens */
     .token.comment { color: #6a9955; }
     .token.tag { color: #569cd6; }
@@ -133,7 +136,7 @@
 <body>
   <div class="toolbar">
     <div class="tab active" data-panel="elements">Elements</div>
-    <div class="tab" data-panel="console">Console</div>
+    <div class="tab" data-panel="consolefaux">Console</div>
     <div class="tab" data-panel="sources">Sources</div>
     <div class="tab" data-panel="network">Network</div>
     <div class="tab" data-panel="performance">Performance</div>
@@ -170,8 +173,7 @@
   <span class="token.angle">&lt;/</span><span class="token.tag">body</span><span class="token.angle">&gt;</span>
 <span class="token.angle">&lt;/</span><span class="token.tag">html</span><span class="token.angle">&gt;</span>
       </div>
-      <!-- Add more panels for each tab below, each with class="panel" and an id that matches data-panel -->
-      <div class="panel console-panel" id="console">
+      <div class="panel" id="consolefaux">
 > let version = "1.26.4"
 < "1.26.4"
 > document.querySelectorAll("div").length
@@ -245,19 +247,27 @@ function hack() {
       </div>
     </div>
     <div class="resizer" id="resizer"></div>
+    <!-- Console always visible on the right -->
+    <div class="console-panel" id="console">
+[12:01:21.004] Page loaded.
+[12:01:23.101] User executed: document.querySelectorAll("main")
+["<main>…</main>"]
+[12:01:23.402] (info) Running Lighthouse...
+[12:01:24.761] (warn) Deprecation warning: 'memory' is an experimental API
+    </div>
   </div>
   <script>
-    // Tab switching logic
+    // Tab switching logic (left-side only!)
     document.querySelectorAll('.toolbar .tab').forEach(tab => {
       tab.addEventListener('click', () => {
         document.querySelectorAll('.toolbar .tab').forEach(t => t.classList.remove('active'));
         tab.classList.add('active');
-        // Hide all panels
-        document.querySelectorAll('.panel').forEach(panel => panel.classList.remove('active'));
-        // Show corresponding panel
+        // Hide all left panels
+        document.querySelectorAll('.left-section .panel').forEach(panel => panel.classList.remove('active'));
+        // Show corresponding left panel
         const panelId = tab.getAttribute('data-panel');
         const showPanel = document.getElementById(panelId);
-        if (showPanel) showPanel.classList.add('active');
+        if (showPanel && showPanel.parentNode.classList.contains("left-section")) showPanel.classList.add('active');
       });
     });
     // Gutter line numbers for Elements panel
@@ -269,9 +279,10 @@ function hack() {
       gutter.innerHTML = Array.from({length: lines}, (_, i) => (i+1)).join('<br>');
     }
     setGutterLines();
-    // Simulate random highlight for realism
+    // Simulate random highlight for realism (only on Elements)
     function pickRandomLine(){
       document.querySelectorAll('.selected-line').forEach(e => e.classList.remove('selected-line'));
+      if (!document.getElementById('elements').classList.contains('active')) return;
       const spans = Array.from(document.getElementById('elements').children).filter(n => n.tagName==="SPAN");
       if (spans.length) {
         const idx = Math.floor(Math.random() * spans.length);
