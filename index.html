@@ -26,6 +26,25 @@
       background: #181818;
       color: #fff;
     }
+
+    .main-wrapper {
+      display: flex;
+      height: 100vh;
+      min-height: 0;
+    }
+    .left-section {
+      display: flex;
+      flex: 1;
+      min-width: 0;
+    }
+    .gutter {
+      color: #4b5363;
+      background: #23272e;
+      padding-right: 10px;
+      text-align: right;
+      user-select: none;
+      min-width: 30px;
+    }
     .elements-panel {
       padding: 18px;
       font-size: 14px;
@@ -34,6 +53,21 @@
       white-space: pre;
       line-height: 1.5;
       border-left: 1px solid #333;
+      flex: 1;
+      min-width: 0;
+      overflow-x: auto;
+    }
+    .console-panel {
+      width: 375px;
+      background: #191A1C;
+      color: #21eb1a;
+      padding: 18px;
+      border-left: 1px solid #333;
+      font-family: "Menlo", "Consolas", "Monaco", "Courier New", monospace;
+      font-size: 14px;
+      overflow-y: auto;
+      min-height: 100vh;
+      box-sizing: border-box;
     }
     .token.comment { color: #6a9955; }
     .token.tag { color: #569cd6; }
@@ -44,15 +78,6 @@
     .selected-line {
       background: rgba(86, 156, 214, 0.15);
       outline: 1px solid #569cd6;
-    }
-    .gutter {
-      float: left;
-      color: #4b5363;
-      background: #23272e;
-      padding-right: 10px;
-      text-align: right;
-      user-select: none;
-      min-width: 30px;
     }
     .inspect-blink {
       outline: 2px solid #5e9fff !important;
@@ -65,13 +90,9 @@
       100% {outline-width: 2px;}
     }
   </style>
-  <script
-            src="https://code.jquery.com/jquery-3.3.1.min.js"
-            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-            crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 </head>
 <body>
-
   <div class="toolbar">
     <div class="active">Elements</div>
     <div>Console</div>
@@ -83,33 +104,38 @@
     <div>Security</div>
     <div>Lighthouse</div>
   </div>
-  <div style="display: flex;">
-    <div class="gutter" id="gutter"></div>
-    <div class="elements-panel" id="elements">
-<span class="token.doctype">&lt;!DOCTYPE html&gt;</span>
-<span class="token.angle">&lt;</span><span class="token.tag">html</span><span class="token.angle">&gt;</span>
-  <span class="token.angle">&lt;</span><span class="token.tag">head</span><span class="token.angle">&gt;</span>
-    <span class="token.angle">&lt;</span><span class="token.tag">meta</span> <span class="token.attr">charset</span>=<span class="token.value">"UTF-8"</span><span class="token.angle">&gt;</span>
-    <span class="token.angle">&lt;</span><span class="token.tag">title</span><span class="token.angle">&gt;</span>My Awesome Site<span class="token.angle">&lt;/</span><span class="token.tag">title</span><span class="token.angle">&gt;</span>
-  <span class="token.angle">&lt;/</span><span class="token.tag">head</span><span class="token.angle">&gt;</span>
-  <span class="token.angle">&lt;</span><span class="token.tag">body</span><span class="token.angle">&gt;</span>
-    <span class="token.angle">&lt;</span><span class="token.tag">h1</span><span class="token.angle">&gt;</span>Hello, world!<span class="token.angle">&lt;/</span><span class="token.tag">h1</span><span class="token.angle">&gt;</span>
-    <span class="token.angle">&lt;</span><span class="token.tag">p</span><span class="token.angle">&gt;</span>This page just pretends to be the inspector!<span class="token.angle">&lt;/</span><span class="token.tag">p</span><span class="token.angle">&gt;</span>
-  <span class="token.angle">&lt;/</span><span class="token.tag">body</span><span class="token.angle">&gt;</span>
-<span class="token.angle">&lt;/</span><span class="token.tag">html</span><span class="token.angle">&gt;</span>
+
+  <div class="main-wrapper">
+    <div class="left-section">
+      <div class="gutter" id="gutter"></div>
+      <div class="elements-panel" id="elements">
+        <span class="token.doctype">&lt;!DOCTYPE html&gt;</span>
+        <span class="token.angle">&lt;</span><span class="token.tag">html</span><span class="token.angle">&gt;</span>
+        <span class="token.angle">&lt;</span><span class="token.tag">head</span><span class="token.angle">&gt;</span>
+        <span class="token.angle">&lt;</span><span class="token.tag">meta</span> <span class="token.attr">charset</span>=<span class="token.value">"UTF-8"</span><span class="token.angle">&gt;</span>
+        <span class="token.angle">&lt;</span><span class="token.tag">title</span><span class="token.angle">&gt;</span>My Awesome Site<span class="token.angle">&lt;/</span><span class="token.tag">title</span><span class="token.angle">&gt;</span>
+        <span class="token.angle">&lt;/</span><span class="token.tag">head</span><span class="token.angle">&gt;</span>
+        <span class="token.angle">&lt;</span><span class="token.tag">body</span><span class="token.angle">&gt;</span>
+        <span class="token.angle">&lt;</span><span class="token.tag">h1</span><span class="token.angle">&gt;</span>Hello, world!<span class="token.angle">&lt;/</span><span class="token.tag">h1</span><span class="token.angle">&gt;</span>
+        <span class="token.angle">&lt;</span><span class="token.tag">p</span><span class="token.angle">&gt;</span>This page just pretends to be the inspector!<span class="token.angle">&lt;/</span><span class="token.tag">p</span><span class="token.angle">&gt;</span>
+        <span class="token.angle">&lt;/</span><span class="token.tag">body</span><span class="token.angle">&gt;</span>
+        <span class="token.angle">&lt;/</span><span class="token.tag">html</span><span class="token.angle">&gt;</span>
+      </div>
+    </div>
+    <div id="console" class="console-panel">
+      <!-- Your JavaScript or user console output could go here -->
     </div>
   </div>
-   <div id='console'></div>
 
   <script>
     // Add fake line numbers like DevTools
     const gutter = document.getElementById('gutter');
     const lines = document.getElementById('elements').innerText.split('\n').length;
     gutter.innerHTML = Array.from({length: lines}, (_, i) => (i+1)).join('<br>');
-    
+
     // Highlight current line for realism (random, changes every 2s)
     function pickRandomLine() {
-      document.querySelectorAll('.selected-line').forEach(e=>e.classList.remove('selected-line'));
+      document.querySelectorAll('.selected-line').forEach(e => e.classList.remove('selected-line'));
       const codeLines = Array.from(document.getElementById('elements').childNodes)
         .filter(n => n.nodeType === 3 || n.tagName === "SPAN");
       const idx = Math.floor(Math.random() * codeLines.length);
@@ -120,15 +146,17 @@
     }
     // Optional: Blink once on load
     document.getElementById('elements').classList.add('inspect-blink');
-    setTimeout(()=>{document.getElementById('elements').classList.remove('inspect-blink');},1200);
+    setTimeout(() => {
+      document.getElementById('elements').classList.remove('inspect-blink');
+    }, 1200);
     // Every 2s, highlight a random line
     setInterval(pickRandomLine, 2000);
   </script>
-</body>
   <script src='script.js' type='text/javascript'></script>
-<script type='text/javascript'>
+  <script type='text/javascript'>
     Typer.speed = 3;
     Typer.file = 'kernel.txt';
     Typer.init();
-</script>
+  </script>
+</body>
 </html>
