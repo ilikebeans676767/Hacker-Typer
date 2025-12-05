@@ -35,10 +35,10 @@ var Typer = {
 
         // Fake granted info
         var fakeOps = [
-            {name: "AGENT: R.CONNOR", ip: "192.168.4.12", level: "ROOT", location: "HQ-PLEASANTON"},
-            {name: "AGENT: ALPHA42", ip: "10.0.35.99", level: "ADMIN", location: "REMOTE NODE"},
-            {name: "AGENT: TANGO8", ip: "172.31.1.111", level: "SUPERUSER", location: "FIELD OPS"},
-            {name: "AGENT: JSIMPSON", ip: "127.0.0.1", level: "DEV", location: "LOCALHOST"}
+            {name: "AGENT: 007", ip: "192.168.4.12", level: "ROOT", location: "PLEASANTON"},
+            {name: "User1234", ip: "10.0.35.99", level: "ADMIN", location: "REMOTE NODE"},
+            {name: "TangoJeans", ip: "172.31.1.111", level: "JS", location: "FIELD OPS"},
+            {name: "Jimbo the Monkey", ip: "127.0.0.1", level: "DEV access", location: "LOCALHOST"}
         ];
         var f = fakeOps[Math.floor(Math.random()*fakeOps.length)];
         var timestamp = new Date().toLocaleString();
