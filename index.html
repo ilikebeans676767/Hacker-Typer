@@ -12,7 +12,7 @@
       background: #181818;
       color: #cfcfcf;
       font-family: "Menlo", "Consolas", "Monaco", "Courier New", monospace;
-      overflow: hidden;
+      overflow: hidden; /* Prevent page scroll */
     }
     body {
       height: 100vh;
@@ -25,9 +25,6 @@
       color: #bbb;
       border-bottom: 1px solid #343434;
       font-size: 13px;
-      height: 38px;
-      align-items: center;
-      box-sizing: border-box;
     }
     .toolbar div {
       padding: 8px 16px;
@@ -39,16 +36,14 @@
     }
     .main-wrapper {
       display: flex;
-      height: calc(100vh - 38px); /* 38px = toolbar */
+      height: calc(100vh - 39px); /* 39px is the toolbar height: 1px border + 38px padding/line height */
       min-height: 0;
-      box-sizing: border-box;
     }
     .left-section {
       display: flex;
       flex: 1;
       min-width: 0;
       min-height: 0;
-      box-sizing: border-box;
     }
     .gutter {
       color: #4b5363;
@@ -75,8 +70,7 @@
       box-sizing: border-box;
     }
     .console-panel {
-      width: 350px;
-      min-width: 100px;
+      width: 375px;
       background: #191A1C;
       color: #21eb1a;
       padding: 18px;
@@ -86,25 +80,6 @@
       overflow-y: auto;
       min-height: 0;
       box-sizing: border-box;
-      transition: width 0.1s;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-    }
-    .resizer {
-      width: 6px;
-      background: #262b34;
-      cursor: col-resize;
-      position: relative;
-      z-index: 10;
-      transition: background 0.2s;
-      height: 100%;
-      box-sizing: border-box;
-    }
-    .resizer:hover,
-    .resizer.dragging {
-      background: #3e8fde;
     }
     .token.comment { color: #6a9955; }
     .token.tag { color: #569cd6; }
@@ -126,11 +101,26 @@
       50% {outline-width: 4px;}
       100% {outline-width: 2px;}
     }
-    /* Prevent text selection on resizer drag */
-    .noselect {
-      user-select: none !important;
-    }
+    .resizer {
+  width: 6px;
+  background: #262b34;
+  cursor: col-resize;
+  position: relative;
+  z-index: 10;
+  transition: background 0.2s;
+}
+.resizer:hover,
+.resizer.dragging {
+  background: #3e8fde;
+}
+.left-section,
+.console-panel {
+  min-width: 100px;
+}
   </style>
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+          integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+          crossorigin="anonymous"></script>
 </head>
 <body>
 <div class="toolbar">
@@ -203,19 +193,16 @@ console.log('Hello world!');
   </div>
   <div class="resizer" id="resizer"></div>
   <div id="console" class="console-panel">
-    <div id="console-inner">
-      Welcome to the console!<br>
-      Start typing or running code.<br>
-    </div>
+    <!-- Console output could go here -->
   </div>
 </div>
 <script>
-  // Fake line numbers
+  // Add fake line numbers like DevTools
   const gutter = document.getElementById('gutter');
   const lines = document.getElementById('elements').innerText.split('\n').length;
   gutter.innerHTML = Array.from({length: lines}, (_, i) => (i+1)).join('<br>');
 
-  // Fake random line highlight
+  // Highlight current line for realism (random, changes every 2s)
   function pickRandomLine() {
     document.querySelectorAll('.selected-line').forEach(e => e.classList.remove('selected-line'));
     const codeLines = Array.from(document.getElementById('elements').childNodes)
@@ -230,58 +217,52 @@ console.log('Hello world!');
     document.getElementById('elements').classList.remove('inspect-blink');
   }, 1200);
   setInterval(pickRandomLine, 2000);
+</script>
+<script src='script.js' type='text/javascript'></script>
+<script type='text/javascript'>
+  if (typeof Typer !== 'undefined') {
+    Typer.speed = 3;
+    Typer.file = 'kernel.txt';
+    Typer.init();
+  }
+</script>
+  <script>
+const resizer = document.getElementById('resizer');
+const leftSection = document.querySelector('.left-section');
+const consolePanel = document.querySelector('.console-panel');
+let isDragging = false;
 
-  // Resizer logic
-  const resizer = document.getElementById('resizer');
-  const leftSection = document.querySelector('.left-section');
-  const consolePanel = document.querySelector('.console-panel');
-  let isDragging = false;
+resizer.addEventListener('mousedown', function(e) {
+  isDragging = true;
+  resizer.classList.add('dragging');
+  document.body.style.cursor = 'col-resize';
+  document.body.style.userSelect = 'none';
+});
 
-  resizer.addEventListener('mousedown', function(e) {
-    isDragging = true;
-    resizer.classList.add('dragging');
-    document.body.classList.add('noselect');
-    document.body.style.cursor = 'col-resize';
-  });
+document.addEventListener('mousemove', function(e) {
+  if (!isDragging) return;
+  // Calculate widths
+  const wrapperRect = document.querySelector('.main-wrapper').getBoundingClientRect();
+  let newLeftWidth = e.clientX - wrapperRect.left;
+  // Minimum panel width, max so console doesn't disappear
+  const minLeft = 100;
+  const maxLeft = wrapperRect.width - 120;
+  if (newLeftWidth < minLeft) newLeftWidth = minLeft;
+  if (newLeftWidth > maxLeft) newLeftWidth = maxLeft;
+  leftSection.style.flex = 'none';
+  leftSection.style.width = newLeftWidth + 'px';
+  consolePanel.style.flex = '1 1 auto';
+  consolePanel.style.width = (wrapperRect.width - newLeftWidth - resizer.offsetWidth) + 'px';
+});
 
-  document.addEventListener('mousemove', function(e) {
-    if (!isDragging) return;
-    const wrapperRect = document.querySelector('.main-wrapper').getBoundingClientRect();
-    let newLeftWidth = e.clientX - wrapperRect.left;
-    const minLeft = 180;
-    const minConsole = 120;
-    const maxLeft = wrapperRect.width - minConsole - resizer.offsetWidth;
-    if (newLeftWidth < minLeft) newLeftWidth = minLeft;
-    if (newLeftWidth > maxLeft) newLeftWidth = maxLeft;
-    leftSection.style.flex = 'none';
-    leftSection.style.width = newLeftWidth + 'px';
-    consolePanel.style.flex = '1 1 auto';
-    consolePanel.style.width = (wrapperRect.width - newLeftWidth - resizer.offsetWidth) + 'px';
-  });
-
-  document.addEventListener('mouseup', function(e) {
-    if (isDragging) {
-      isDragging = false;
-      resizer.classList.remove('dragging');
-      document.body.classList.remove('noselect');
-      document.body.style.cursor = '';
-    }
-  });
-
-  // Console panel auto-scroll (MutationObserver works for any content injection)
-  const consoleInner = document.getElementById('console-inner');
-  const observer = new MutationObserver(() => {
-    const panel = document.getElementById('console');
-    panel.scrollTop = panel.scrollHeight;
-  });
-  observer.observe(consoleInner, { childList: true, subtree: true, characterData: true });
-
-  // EXAMPLE: Simulate output every second (delete if not needed)
-  // setInterval(() => {
-  //   const li = document.createElement('div');
-  //   li.textContent = 'Output line at ' + new Date().toLocaleTimeString();
-  //   consoleInner.appendChild(li);
-  // }, 1000);
+document.addEventListener('mouseup', function(e) {
+  if (isDragging) {
+    isDragging = false;
+    resizer.classList.remove('dragging');
+    document.body.style.cursor = '';
+    document.body.style.userSelect = '';
+  }
+});
 </script>
 </body>
 </html>
