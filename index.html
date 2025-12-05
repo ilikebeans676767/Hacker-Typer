@@ -40,6 +40,7 @@
       display: flex;
       height: calc(100vh - 39px);
       min-height: 0;
+      width: 100vw;
     }
     .left-section {
       display: flex;
@@ -51,6 +52,7 @@
       background: #23272e;
       width: 60%;
       transition: width 0.2s;
+      box-sizing: border-box;
     }
     .gutter {
       color: #4b5363;
@@ -78,8 +80,8 @@
       background: #1e1e1e;
     }
     .panel.active { display: block; }
-    .console-panel {
-      width: 40%;
+    /*! Updated styling for the right console-panel */
+    #console {
       background: #191A1C;
       color: #21eb1a;
       border-left: 1px solid #333;
@@ -90,6 +92,9 @@
       display: block;
       padding: 18px;
       font-family: "Menlo", "Consolas", "Monaco", "Courier New", monospace;
+      min-width: 100px;
+      width: 40%;         /* Default width if no JS workaround */
+      transition: width 0.2s;
     }
     /* Syntax highlight tokens */
     .token.comment { color: #6a9955; }
@@ -98,20 +103,9 @@
     .token.value { color: #ce9178; }
     .token.angle { color: #808080; }
     .token.doctype { color: #6a9955; }
-    .selected-line {
-      background: rgba(86, 156, 214, 0.15);
-      outline: 1px solid #569cd6;
-    }
-    .inspect-blink {
-      outline: 2px solid #5e9fff !important;
-      background: rgba(30,120,240,0.10) !important;
-      animation: blink 1s;
-    }
-    @keyframes blink {
-      0% { outline-width: 2px; }
-      50% { outline-width: 4px; }
-      100% { outline-width: 2px; }
-    }
+    .selected-line { background: rgba(86, 156, 214, 0.15); outline: 1px solid #569cd6; }
+    .inspect-blink { outline: 2px solid #5e9fff !important; background: rgba(30,120,240,0.10) !important; animation: blink 1s; }
+    @keyframes blink { 0% { outline-width: 2px; } 50% { outline-width: 4px; } 100% { outline-width: 2px; } }
     .resizer {
       width: 6px;
       background: #262b34;
@@ -121,7 +115,7 @@
       transition: background 0.2s;
     }
     .resizer:hover, .resizer.dragging { background: #3e8fde; }
-    .left-section, .console-panel { min-width: 100px; }
+    .left-section, #console { min-width: 100px; }
     table { width: 100%; border-collapse: collapse; font-size: 14px; color: #cfcfcf; }
     th, td { border-bottom: 1px solid #333; padding: 3px 6px; }
     th { color: #7abaff; font-weight: bold; background: #23272e; }
@@ -150,105 +144,106 @@
       <div class="gutter" id="gutter"></div>
       <!-- Elements Panel (the default one) -->
       <div class="panel elements active" id="elements">
-<span class="token.doctype">&lt;!DOCTYPE html&gt;</span>
-<span class="token.angle">&lt;</span><span class="token.tag">html</span> <span class="token.attr">lang</span>=<span class="token.value">"en"</span><span class="token.angle">&gt;</span>
- <span class="token.angle">&lt;</span><span class="token.tag">head</span><span class="token.angle">&gt;</span>
-  <span class="token.angle">&lt;</span><span class="token.tag">meta</span> <span class="token.attr">charset</span>=<span class="token.value">"UTF-8"</span><span class="token.angle">&gt;</span>
-  <span class="token.angle">&lt;</span><span class="token.tag">meta</span> <span class="token.attr">name</span>=<span class="token.value">"viewport"</span> <span class="token.attr">content</span>=<span class="token.value">"width=device-width, initial-scale=1"</span><span class="token.angle">&gt;</span>
-  <span class="token.angle">&lt;</span><span class="token.tag">title</span><span class="token.angle">&gt;</span>My Awesome Site<span class="token.angle">&lt;/</span><span class="token.tag">title</span><span class="token.angle">&gt;</span>
-  <span class="token.angle">&lt;</span><span class="token.tag">link</span> <span class="token.attr">rel</span>=<span class="token.value">"stylesheet"</span> <span class="token.attr">href</span>=<span class="token.value">"styles.css"</span><span class="token.angle">&gt;</span>
- <span class="token.angle">&lt;/</span><span class="token.tag">head</span><span class="token.angle">&gt;</span>
- <span class="token.angle">&lt;</span><span class="token.tag">body</span><span class="token.angle">&gt;</span>
-  <span class="token.angle">&lt;</span><span class="token.tag">header</span> <span class="token.attr">class</span>=<span class="token.value">"site-header"</span><span class="token.angle">&gt;</span>
-   <span class="token.angle">&lt;</span><span class="token.tag">nav</span> <span class="token.attr">class</span>=<span class="token.value">"navbar"</span><span class="token.angle">&gt;</span>
-    <span class="token.angle">&lt;</span><span class="token.tag">a</span> <span class="token.attr">href</span>=<span class="token.value">"/"</span> <span class="token.attr">class</span>=<span class="token.value">"logo"</span><span class="token.angle">&gt;</span>Logo<span class="token.angle">&lt;/</span><span class="token.tag">a</span><span class="token.angle">&gt;</span>
-    <span class="token.angle">&lt;</span><span class="token.tag">ul</span> <span class="token.attr">class</span>=<span class="token.value">"menu"</span><span class="token.angle">&gt;</span>
-     <span class="token.angle">&lt;</span><span class="token.tag">li</span><span class="token.angle">&gt;</span><span class="token.angle">&lt;</span><span class="token.tag">a</span> <span class="token.attr">href</span>=<span class="token.value">"#features"</span><span class="token.angle">&gt;</span>Features<span class="token.angle">&lt;/</span><span class="token.tag">a</span><span class="token.angle">&gt;</span><span class="token.angle">&lt;/</span><span class="token.tag">li</span><span class="token.angle">&gt;</span>
-     <span class="token.angle">&lt;</span><span class="token.tag">li</span><span class="token.angle">&gt;</span><span class="token.angle">&lt;</span><span class="token.tag">a</span> <span class="token.attr">href</span>=<span class="token.value">"#pricing"</span><span class="token.angle">&gt;</span>Pricing<span class="token.angle">&lt;/</span><span class="token.tag">a</span><span class="token.angle">&gt;</span><span class="token.angle">&lt;/</span><span class="token.tag">li</span><span class="token.angle">&gt;</span>
-     <span class="token.angle">&lt;</span><span class="token.tag">li</span><span class="token.angle">&gt;</span><span class="token.angle">&lt;</span><span class="token.tag">a</span> <span class="token.attr">href</span>=<span class="token.value">"#about"</span><span class="token.angle">&gt;</span>About<span class="token.angle">&lt;/</span><span class="token.tag">a</span><span class="token.angle">&gt;</span><span class="token.angle">&lt;/</span><span class="token.tag">li</span><span class="token.angle">&gt;</span>
-    <span class="token.angle">&lt;/</span><span class="token.tag">ul</span><span class="token.angle">&gt;</span>
-   <span class="token.angle">&lt;/</span><span class="token.tag">nav</span><span class="token.angle">&gt;</span>
-  <span class="token.angle">&lt;/</span><span class="token.tag">header</span><span class="token.angle">&gt;</span>
-  ...
-  <span class="token.angle">&lt;/</span><span class="token.tag">body</span><span class="token.angle">&gt;</span>
-<span class="token.angle">&lt;/</span><span class="token.tag">html</span><span class="token.angle">&gt;</span>
+        <span class="token.doctype">&lt;!DOCTYPE html&gt;</span>
+        <span class="token.angle">&lt;</span><span class="token.tag">html</span> <span class="token.attr">lang</span>=<span class="token.value">"en"</span><span class="token.angle">&gt;</span>
+        <span class="token.angle">&lt;</span><span class="token.tag">head</span><span class="token.angle">&gt;</span>
+        <span class="token.angle">&lt;</span><span class="token.tag">meta</span> <span class="token.attr">charset</span>=<span class="token.value">"UTF-8"</span><span class="token.angle">&gt;</span>
+        <span class="token.angle">&lt;</span><span class="token.tag">meta</span> <span class="token.attr">name</span>=<span class="token.value">"viewport"</span>
+        <span class="token.attr">content</span>=<span class="token.value">"width=device-width, initial-scale=1"</span><span class="token.angle">&gt;</span>
+        <span class="token.angle">&lt;</span><span class="token.tag">title</span><span class="token.angle">&gt;</span>My Awesome Site<span class="token.angle">&lt;/</span><span class="token.tag">title</span><span class="token.angle">&gt;</span>
+        <span class="token.angle">&lt;</span><span class="token.tag">link</span> <span class="token.attr">rel</span>=<span class="token.value">"stylesheet"</span> <span class="token.attr">href</span>=<span class="token.value">"styles.css"</span><span class="token.angle">&gt;</span>
+        <span class="token.angle">&lt;/</span><span class="token.tag">head</span><span class="token.angle">&gt;</span>
+        <span class="token.angle">&lt;</span><span class="token.tag">body</span><span class="token.angle">&gt;</span>
+        <span class="token.angle">&lt;</span><span class="token.tag">header</span> <span class="token.attr">class</span>=<span class="token.value">"site-header"</span><span class="token.angle">&gt;</span>
+        <span class="token.angle">&lt;</span><span class="token.tag">nav</span> <span class="token.attr">class</span>=<span class="token.value">"navbar"</span><span class="token.angle">&gt;</span>
+        <span class="token.angle">&lt;</span><span class="token.tag">a</span> <span class="token.attr">href</span>=<span class="token.value">"/"</span> <span class="token.attr">class</span>=<span class="token.value">"logo"</span><span class="token.angle">&gt;</span>Logo<span class="token.angle">&lt;/</span><span class="token.tag">a</span><span class="token.angle">&gt;</span>
+        <span class="token.angle">&lt;</span><span class="token.tag">ul</span> <span class="token.attr">class</span>=<span class="token.value">"menu"</span><span class="token.angle">&gt;</span>
+        <span class="token.angle">&lt;</span><span class="token.tag">li</span><span class="token.angle">&gt;</span><span class="token.angle">&lt;</span><span class="token.tag">a</span> <span class="token.attr">href</span>=<span class="token.value">"#features"</span><span class="token.angle">&gt;</span>Features<span class="token.angle">&lt;/</span><span class="token.tag">a</span><span class="token.angle">&gt;</span><span class="token.angle">&lt;/</span><span class="token.tag">li</span><span class="token.angle">&gt;</span>
+        <span class="token.angle">&lt;</span><span class="token.tag">li</span><span class="token.angle">&gt;</span><span class="token.angle">&lt;</span><span class="token.tag">a</span> <span class="token.attr">href</span>=<span class="token.value">"#pricing"</span><span class="token.angle">&gt;</span>Pricing<span class="token.angle">&lt;/</span><span class="token.tag">a</span><span class="token.angle">&gt;</span><span class="token.angle">&lt;/</span><span class="token.tag">li</span><span class="token.angle">&gt;</span>
+        <span class="token.angle">&lt;</span><span class="token.tag">li</span><span class="token.angle">&gt;</span><span class="token.angle">&lt;</span><span class="token.tag">a</span> <span class="token.attr">href</span>=<span class="token.value">"#about"</span><span class="token.angle">&gt;</span>About<span class="token.angle">&lt;/</span><span class="token.tag">a</span><span class="token.angle">&gt;</span><span class="token.angle">&lt;/</span><span class="token.tag">li</span><span class="token.angle">&gt;</span>
+        <span class="token.angle">&lt;/</span><span class="token.tag">ul</span><span class="token.angle">&gt;</span>
+        <span class="token.angle">&lt;/</span><span class="token.tag">nav</span><span class="token.angle">&gt;</span>
+        <span class="token.angle">&lt;/</span><span class="token.tag">header</span><span class="token.angle">&gt;</span>
+        ...
+        <span class="token.angle">&lt;/</span><span class="token.tag">body</span><span class="token.angle">&gt;</span>
+        <span class="token.angle">&lt;/</span><span class="token.tag">html</span><span class="token.angle">&gt;</span>
       </div>
       <div class="panel" id="consolefaux">
-> let version = "1.26.4"
-< "1.26.4"
-> document.querySelectorAll("div").length
-< 16
-> console.warn("Low memory warning!")
-VM12:1 Low memory warning!
+        &gt; let version = "1.26.4"
+        < "1.26.4"
+        &gt; document.querySelectorAll("div").length
+        < 16
+        &gt; console.warn("Low memory warning!")
+        VM12:1 Low memory warning!
       </div>
       <div class="panel" id="sources">
-<strong>Page sources:</strong>
-<ul>
-  <li>index.html</li>
-  <li>styles.css</li>
-  <li>main.js</li>
-</ul>
-<p>// main.js (truncated preview)</p>
-<pre>
+        <strong>Page sources:</strong>
+        <ul>
+          <li>index.html</li>
+          <li>styles.css</li>
+          <li>main.js</li>
+        </ul>
+        <p>// main.js (truncated preview)</p>
+        <pre>
 function hack() {
   return "all your base are belong to us";
 }
-</pre>
+        </pre>
       </div>
       <div class="panel" id="network">
-<strong>Network Log:</strong>
-<table>
-  <tr><th>Name</th><th>Status</th><th>Type</th></tr>
-  <tr><td>main.js</td><td>200</td><td>script</td></tr>
-  <tr><td>logo.png</td><td>200</td><td>image</td></tr>
-  <tr><td>api/data</td><td>404</td><td>xhr</td></tr>
-</table>
+        <strong>Network Log:</strong>
+        <table>
+          <tr><th>Name</th><th>Status</th><th>Type</th></tr>
+          <tr><td>main.js</td><td>200</td><td>script</td></tr>
+          <tr><td>logo.png</td><td>200</td><td>image</td></tr>
+          <tr><td>api/data</td><td>404</td><td>xhr</td></tr>
+        </table>
       </div>
       <div class="panel" id="performance">
-<strong>Performance Metrics:</strong>
-<ul>
-  <li>Load: 1.2s</li>
-  <li>JS Heap: 6.1 MB</li>
-  <li>FPS: 58</li>
-</ul>
+        <strong>Performance Metrics:</strong>
+        <ul>
+          <li>Load: 1.2s</li>
+          <li>JS Heap: 6.1 MB</li>
+          <li>FPS: 58</li>
+        </ul>
       </div>
       <div class="panel" id="memory">
-<strong>Memory Usage</strong>
-<ul>
-  <li>Documents: 3</li>
-  <li>DOM Nodes: 2,350</li>
-  <li>Listeners: 38</li>
-  <li>GPU Memory: 55MB</li>
-</ul>
+        <strong>Memory Usage</strong>
+        <ul>
+          <li>Documents: 3</li>
+          <li>DOM Nodes: 2,350</li>
+          <li>Listeners: 38</li>
+          <li>GPU Memory: 55MB</li>
+        </ul>
       </div>
       <div class="panel" id="application">
-<strong>Application</strong>
-<ul>
-  <li>Local Storage: 5 keys</li>
-  <li>Session Storage: 2 keys</li>
-  <li>Cookies: 3</li>
-</ul>
+        <strong>Application</strong>
+        <ul>
+          <li>Local Storage: 5 keys</li>
+          <li>Session Storage: 2 keys</li>
+          <li>Cookies: 3</li>
+        </ul>
       </div>
       <div class="panel" id="security">
-<strong>Security Overview</strong>
-<ul>
-  <li>Certificate: Valid (Fake CA)</li>
-  <li>Connection: Secure (TLS 1.3)</li>
-</ul>
+        <strong>Security Overview</strong>
+        <ul>
+          <li>Certificate: Valid (Fake CA)</li>
+          <li>Connection: Secure (TLS 1.3)</li>
+        </ul>
       </div>
       <div class="panel" id="lighthouse">
-<strong>Lighthouse Results:</strong>
-<ul>
-  <li>Performance: 98</li>
-  <li>Accessibility: 94</li>
-  <li>Best Practices: 100</li>
-  <li>SEO: 92</li>
-</ul>
+        <strong>Lighthouse Results:</strong>
+        <ul>
+          <li>Performance: 98</li>
+          <li>Accessibility: 94</li>
+          <li>Best Practices: 100</li>
+          <li>SEO: 92</li>
+        </ul>
       </div>
     </div>
     <div class="resizer" id="resizer"></div>
     <!-- Console always visible on the right -->
-     <div id='console'></div>
+    <div id="console"></div>
   </div>
   <script>
     // Tab switching logic (left-side only!)
@@ -264,20 +259,22 @@ function hack() {
         if (showPanel && showPanel.parentNode.classList.contains("left-section")) showPanel.classList.add('active');
       });
     });
+
     // Gutter line numbers for Elements panel
     function setGutterLines() {
       const gutter = document.getElementById('gutter');
       const elements = document.getElementById('elements');
       let codeText = elements.innerText || '';
       const lines = codeText.split('\n').length || 20;
-      gutter.innerHTML = Array.from({length: lines}, (_, i) => (i+1)).join('<br>');
+      gutter.innerHTML = Array.from({ length: lines }, (_, i) => (i + 1)).join('<br>');
     }
     setGutterLines();
+
     // Simulate random highlight for realism (only on Elements)
-    function pickRandomLine(){
+    function pickRandomLine() {
       document.querySelectorAll('.selected-line').forEach(e => e.classList.remove('selected-line'));
       if (!document.getElementById('elements').classList.contains('active')) return;
-      const spans = Array.from(document.getElementById('elements').children).filter(n => n.tagName==="SPAN");
+      const spans = Array.from(document.getElementById('elements').children).filter(n => n.tagName === "SPAN");
       if (spans.length) {
         const idx = Math.floor(Math.random() * spans.length);
         spans[idx].classList.add('selected-line');
@@ -285,35 +282,66 @@ function hack() {
     }
     setInterval(pickRandomLine, 2000);
 
-    // Panel Resizing
+    // --- Panel Resizing (improved to update console too!) ---
     const resizer = document.getElementById('resizer');
     const leftSection = document.querySelector('.left-section');
+    const mainWrapper = document.querySelector('.main-wrapper');
+    const consolePanel = document.getElementById('console');
     let isDragging = false;
-    resizer.addEventListener('mousedown', function(e){
+
+    resizer.addEventListener('mousedown', function (e) {
       isDragging = true;
       resizer.classList.add('dragging');
       document.body.style.cursor = 'col-resize';
       document.body.style.userSelect = 'none';
     });
-    document.addEventListener('mousemove', function(e){
-      if(!isDragging) return;
-      const wrapperRect = document.querySelector('.main-wrapper').getBoundingClientRect();
+
+    document.addEventListener('mousemove', function (e) {
+      if (!isDragging) return;
+      const wrapperRect = mainWrapper.getBoundingClientRect();
       let newLeftWidth = e.clientX - wrapperRect.left;
       const minLeft = 100;
       const maxLeft = wrapperRect.width - 120;
-      if(newLeftWidth < minLeft) newLeftWidth = minLeft;
-      if(newLeftWidth > maxLeft) newLeftWidth = maxLeft;
+      if (newLeftWidth < minLeft) newLeftWidth = minLeft;
+      if (newLeftWidth > maxLeft) newLeftWidth = maxLeft;
+
+      // Width for leftSection and for right panel
       leftSection.style.flex = 'none';
       leftSection.style.width = newLeftWidth + 'px';
+      // Update right panel (console) width
+      const resizerWidth = resizer.offsetWidth;
+      let rightWidth = wrapperRect.width - newLeftWidth - resizerWidth;
+      if (rightWidth < 100) rightWidth = 100;
+      consolePanel.style.width = rightWidth + 'px';
     });
-    document.addEventListener('mouseup', function(){
-      if(isDragging){
+
+    document.addEventListener('mouseup', function () {
+      if (isDragging) {
         isDragging = false;
         resizer.classList.remove('dragging');
         document.body.style.cursor = '';
         document.body.style.userSelect = '';
       }
     });
+
+    // OPTIONAL: demo hacking animation, replace with your actual script.js logic!
+    // Example:
+    // function showHackTextOnRight() {
+    //   const consolePanel = document.getElementById('console');
+    //   let idx = 0;
+    //   const lines = ['Accessing mainframe...', 'Bypassing firewall...', 'root@system:~# █'];
+    //   setInterval(() => {
+    //     if (idx < lines.length) {
+    //       consolePanel.innerHTML += lines[idx++] + '<br>';
+    //     } else {
+    //       consolePanel.innerHTML += 'root@system:~# █';
+    //     }
+    //   }, 800);
+    // }
+    // showHackTextOnRight();
+    // In your actual build, your script.js should target #console for the animation.
+
   </script>
+  <script src="script.js"></script> <!-- assuming your hack animation is here -->
 </body>
 </html>
