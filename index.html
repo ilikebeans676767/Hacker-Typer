@@ -65,6 +65,10 @@
       100% {outline-width: 2px;}
     }
   </style>
+  <script
+            src="https://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+            crossorigin="anonymous"></script>
 </head>
 <body>
 
@@ -95,6 +99,7 @@
 <span class="token.angle">&lt;/</span><span class="token.tag">html</span><span class="token.angle">&gt;</span>
     </div>
   </div>
+   <div id='console'></div>
 
   <script>
     // Add fake line numbers like DevTools
@@ -120,4 +125,10 @@
     setInterval(pickRandomLine, 2000);
   </script>
 </body>
+  <script src='script.js' type='text/javascript'></script>
+<script type='text/javascript'>
+    Typer.speed = 3;
+    Typer.file = 'kernel.txt';
+    Typer.init();
+</script>
 </html>
