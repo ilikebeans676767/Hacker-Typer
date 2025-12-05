@@ -1,113 +1,166 @@
-/*
-*(c) Copyright 2011 Simone Masiero. Some Rights Reserved.
-*This work is licensed under a Creative Commons Attribution-Noncommercial-Share Alike 3.0 License
-*/
+/* *(c) Copyright 2011 Simone Masiero. Some Rights Reserved. *This work is licensed under a Creative Commons Attribution-Noncommercial-Share Alike 3.0 License */
+$(function() {
+    $(document).keydown(function(event) {
+        Typer.addText(event);
+    });
+});
 
-$(
-	function(){
-		$( document ).keydown(
-			function ( event ) {
-				Typer.addText( event ); //Capture the keydown event and call the addText, this is executed on page load
-			}
-		);
-	}
-);
+var Typer = {
+    text: null,
+    accessCountimer: null,
+    index: 0,
+    speed: 2,
+    file: "",
+    accessCount: 0,
+    deniedCount: 0,
 
-var Typer={
-	text: null,
-	accessCountimer:null,
-	index:0, // current cursor position
-	speed:2, // speed of the Typer
-	file:"", //file, must be set
-	accessCount:0, //times alt is pressed for Access Granted
-	deniedCount:0, //times caps is pressed for Access Denied
-	init: function(){// initialize Hacker Typer
-		this.accessCountimer=setInterval(function(){Typer.updLstChr();},500); // initialize timer for blinking cursor
-		$.get(Typer.file,function(data){// get the text file
-			Typer.text=data;// save the textfile in Typer.text
-		});
-	},
+    init: function() {
+        this.accessCountimer = setInterval(function() { Typer.updLstChr(); }, 500);
+        $.get(Typer.file, function(data) {
+            Typer.text = data;
+        });
+    },
 
-	content:function(){
-		return $("#console").html();// get console content
-	},
+    content: function() {
+        return $("#console").html();
+    },
+    write: function(str) {
+        $("#console").append(str);
+        return false;
+    },
 
-	write:function(str){// append to console content
-		$("#console").append(str);
-		return false;
-	},
+    makeAccess: function() {
+        Typer.hidepop();
+        Typer.accessCount = 0;
 
-	makeAccess:function(){//create Access Granted popUp
-		Typer.hidepop(); // hide all popups
-		Typer.accessCount=0; //reset count
-		var ddiv=$("<div id='gran'>").html(""); // create new blank div and id "gran"
-		ddiv.addClass("accessGranted"); // add class to the div
-		ddiv.html("<h1>ACCESS GRANTED</h1>"); // set content of div
-		$(document.body).prepend(ddiv); // prepend div to body
-		return false;
-	},
-	makeDenied:function(){//create Access Denied popUp
-		Typer.hidepop(); // hide all popups
-		Typer.deniedCount=0; //reset count
-		var ddiv=$("<div id='deni'>").html(""); // create new blank div and id "deni"
-		ddiv.addClass("accessDenied");// add class to the div
-		ddiv.html("<h1>ACCESS DENIED</h1>");// set content of div
-		$(document.body).prepend(ddiv);// prepend div to body
-		return false;
-	},
+        // Fake granted info
+        var fakeOps = [
+            {name: "AGENT: R.CONNOR", ip: "192.168.4.12", level: "ROOT", location: "HQ-PLEASANTON"},
+            {name: "AGENT: ALPHA42", ip: "10.0.35.99", level: "ADMIN", location: "REMOTE NODE"},
+            {name: "AGENT: TANGO8", ip: "172.31.1.111", level: "SUPERUSER", location: "FIELD OPS"},
+            {name: "AGENT: JSIMPSON", ip: "127.0.0.1", level: "DEV", location: "LOCALHOST"}
+        ];
+        var f = fakeOps[Math.floor(Math.random()*fakeOps.length)];
+        var timestamp = new Date().toLocaleString();
 
-	hidepop:function(){// remove all existing popups
-		$("#deni").remove();
-		$("#gran").remove();
-        Typer.accessCount=0; //reset access granted count
-        Typer.deniedCount=0; //reset access denied count
-	},
+        // Build access granted popup
+        var ddiv = $("<div id='gran'>").addClass("accessGranted");
+        ddiv.attr("style",
+            "position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:9999;"+
+            "background:#172b14;color:#baffba;border:3px solid #40e971;padding:38px 54px 26px 54px;"+
+            "border-radius:13px;box-shadow:0 8px 30px rgba(0,0,0,0.46);"+
+            "min-width:350px;text-align:left;font-family:Consolas,monospace;font-size:1.53em;"
+        )
+        .html(
+            "<div style='text-align:center; font-size:58px;line-height:66px;'><span style='color:#64ff64;'>✔️</span></div>"+
+            "<div style='text-align:center;font-size:1.33em;font-weight:bold;margin-bottom:8px;letter-spacing:2px;'><span style='color:#64ff64;'>ACCESS GRANTED</span></div>"+
+            "<hr style='border:1px solid #6aff65;margin:10px 0 18px 0;opacity:.35;'>"+
+            "<div><b>Name:</b> <span style='color:#fff'>" + f.name + "</span></div>"+
+            "<div><b>IP:</b> <span style='color:#d9fad6'>" + f.ip + "</span></div>"+
+            "<div><b>Clearance:</b> <span style='color:#85fa85'>" + f.level + "</span> &nbsp; <span style='color:#b5ffb5'>" + f.location + "</span></div>"+
+            "<div style='font-size:.77em;color:#55a866;margin-top:7px;'><b>Authorized:</b> " + timestamp + "</div>"+
+            "<div style='color:#b1ffb1;font-size:.83em;margin-top:14px;'>All sub-systems unlocked.<br/>Monitoring enabled. Logging active.</div>"
+        );
+        $(document.body).prepend(ddiv);
+        setTimeout(function(){ $("#gran").fadeOut(350,function(){$(this).remove();}); }, 2200);
+        return false;
+    },
 
-	addText:function(key){//Main function to add the code
-	  var console=$("#console")
-		if(key.key==='Alt'){// key 18 = alt key
-			Typer.accessCount++; //increase counter
-			if(Typer.accessCount>=3){// if it's pressed 3 times
-				Typer.makeAccess(); // make access popup
-			}
-		}else if(key.key==='CapsLock'){// key 20 = caps lock
-			Typer.deniedCount++; // increase counter
-			if(Typer.deniedCount>=3){ // if it's pressed 3 times
-				Typer.makeDenied(); // make denied popup
-			}
-		}else if(key.key==='Esc' || key.key==='Escape'){ // key 27 = esc key
-			Typer.hidepop(); // hide all popups
-		}else if(Typer.text){ // otherwise if text is loaded
-			var cont=Typer.content(); // get the console content
-			if(cont.substring(cont.length-1,cont.length)==="|") // if the last char is the blinking cursor
-				console.html(console.html().substring(0,cont.length-1)); // remove it before adding the text
-			if(key.key!=='Backspace'){ // if key is not backspace
-				Typer.index+=Typer.speed;	// add to the index the speed
-			}else{
-				if(Typer.index>0) // else if index is not less than 0
-					Typer.index-=Typer.speed;//	remove speed for deleting text
-			}
-			var text=$("<div/>").text(Typer.text.substring(0,Typer.index)).html();// parse the text for stripping html entities
-			var rtn= new RegExp("\n", "g"); // newline regex
-			var rts= new RegExp("\\s", "g"); // whitespace regex
-			var rtt= new RegExp("\\t", "g"); // tab regex
-      console.html(text.replace(rtn,"<br/>").replace(rtt,"&nbsp;&nbsp;&nbsp;&nbsp;").replace(rts,"&nbsp;"));// replace newline chars with br, tabs with 4 space and blanks with an html blank
-			window.scrollBy(0,50); // scroll to make sure bottom is always visible
-		}
-		if ( key.preventDefault && key.key !== 'F11' ) { // prevent F11(fullscreen) from being blocked
-			key.preventDefault()
-		}
-		if(key.key !== 'F11'){ // otherwise prevent keys default behavior
-			key.returnValue = false;
-		}
-	},
+    makeDenied: function() {
+        Typer.hidepop();
+        Typer.deniedCount = 0;
 
-	updLstChr:function(){ // blinking cursor
-	  var console=$("#console")
-		var cont=this.content(); // get console
-		if(cont.substring(cont.length-1,cont.length)==="|") // if last char is the cursor
-			console.html(console.html().substring(0,cont.length-1)); // remove it
-		else
-			this.write("|"); // else write it
-	}
+        var errCodes = [
+            "ERR-0x49C2: UNAUTHORIZED ACCESS",
+            "ERR-0x501A: INSUFFICIENT CLEARANCE",
+            "ERR-0xA12F: SECURITY EXCEPTION",
+            "ERR-0x77BF: ACCESS TOKEN REJECTED"
+        ];
+        var reasons = [
+            "Clearance level mismatch.",
+            "Authorization header invalid.",
+            "Fingerprint not recognized.",
+            "Operator flagged for review."
+        ];
+        var code = errCodes[Math.floor(Math.random()*errCodes.length)];
+        var reason = reasons[Math.floor(Math.random()*reasons.length)];
+        var timestamp = new Date().toLocaleString();
+
+        // Build access denied popup
+        var ddiv = $("<div id='deni'>").addClass("accessDenied");
+        ddiv.attr("style",
+            "position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:9999;"+
+            "background:#261010;color:#ff5151;border:3.2px solid #ff3737;padding:38px 54px 26px 54px;"+
+            "border-radius:13px;box-shadow:0 8px 30px rgba(0,0,0,0.54);min-width:415px;"+
+            "text-align:left;font-family:Consolas,monospace;font-size:1.48em;"
+        )
+        .html(
+            "<div style='text-align:center; font-size:56px;line-height:62px;'><span style='color:#ff4141;'>⛔</span></div>"+
+            "<div style='text-align:center;font-size:1.22em;font-weight:bold;margin-bottom:6px;letter-spacing:1.2px;'><span style='color:#ff8888;'>ACCESS DENIED</span></div>"+
+            "<hr style='border:1px solid #ef8484;margin:9px 0 15px 0;opacity:.27;'>"+
+            "<div><b>Error Code:</b> <span style='color:#ffd1d1'>" + code + "</span></div>"+
+            "<div><b>Reason:</b> <span style='color:#fcc'>" + reason + "</span></div>"+
+            "<div><b>Time:</b> <span style='color:#fcc'>" + timestamp + "</span></div>"+
+            "<div style='color:#ff8c8c;font-size:.91em;margin-top:12px;border-left:4px solid #ff3737;padding-left:9px;'>"+
+            "Multiple failed attempts detected.<br/>Session locked. <span style='color:#fcc;'>Contact administrator.</span></div>"
+        );
+        $(document.body).prepend(ddiv);
+        setTimeout(function(){ $("#deni").fadeOut(400,function(){$(this).remove();}); }, 2500);
+        return false;
+    },
+
+    hidepop: function() {
+        $("#deni").remove();
+        $("#gran").remove();
+        Typer.accessCount = 0;
+        Typer.deniedCount = 0;
+    },
+
+    addText: function(key) {
+        var console = $("#console")
+        if (key.key === 'Alt') {
+            Typer.accessCount++;
+            if (Typer.accessCount >= 3) {
+                Typer.makeAccess();
+            }
+        } else if (key.key === 'CapsLock') {
+            Typer.deniedCount++;
+            if (Typer.deniedCount >= 3) {
+                Typer.makeDenied();
+            }
+        } else if (key.key === 'Esc' || key.key === 'Escape') {
+            Typer.hidepop();
+        } else if (Typer.text) {
+            var cont = Typer.content();
+            if (cont.substring(cont.length-1, cont.length) === "|")
+                console.html(console.html().substring(0,cont.length-1));
+            if (key.key !== 'Backspace') {
+                Typer.index += Typer.speed;
+            } else {
+                if (Typer.index > 0)
+                    Typer.index -= Typer.speed;
+            }
+            var text = $("<div/>").text(Typer.text.substring(0, Typer.index)).html();
+            var rtn = new RegExp("\n", "g");
+            var rts = new RegExp("\\s", "g");
+            var rtt = new RegExp("\\t", "g");
+            console.html(text.replace(rtn,"<br/>").replace(rtt,"&nbsp;&nbsp;&nbsp;&nbsp;").replace(rts,"&nbsp;"));
+            window.scrollBy(0,50);
+        }
+        if (key.preventDefault && key.key !== 'F11') {
+            key.preventDefault();
+        }
+        if(key.key !== 'F11'){
+            key.returnValue = false;
+        }
+    },
+
+    updLstChr: function() {
+        var console = $("#console");
+        var cont = this.content();
+        if (cont.substring(cont.length-1, cont.length) === "|")
+            console.html(console.html().substring(0, cont.length-1));
+        else
+            this.write("|");
+    }
 }
