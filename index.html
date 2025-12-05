@@ -101,6 +101,22 @@
       50% {outline-width: 4px;}
       100% {outline-width: 2px;}
     }
+    .resizer {
+  width: 6px;
+  background: #262b34;
+  cursor: col-resize;
+  position: relative;
+  z-index: 10;
+  transition: background 0.2s;
+}
+.resizer:hover,
+.resizer.dragging {
+  background: #3e8fde;
+}
+.left-section,
+.console-panel {
+  min-width: 100px;
+}
   </style>
   <script src="https://code.jquery.com/jquery-3.3.1.min.js"
           integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
@@ -175,6 +191,7 @@ console.log('Hello world!');
 <span class="token.angle">&lt;/</span><span class="token.tag">html</span><span class="token.angle">&gt;</span>
     </div>
   </div>
+  <div class="resizer" id="resizer"></div>
   <div id="console" class="console-panel">
     <!-- Console output could go here -->
   </div>
@@ -208,6 +225,44 @@ console.log('Hello world!');
     Typer.file = 'kernel.txt';
     Typer.init();
   }
+</script>
+  <script>
+const resizer = document.getElementById('resizer');
+const leftSection = document.querySelector('.left-section');
+const consolePanel = document.querySelector('.console-panel');
+let isDragging = false;
+
+resizer.addEventListener('mousedown', function(e) {
+  isDragging = true;
+  resizer.classList.add('dragging');
+  document.body.style.cursor = 'col-resize';
+  document.body.style.userSelect = 'none';
+});
+
+document.addEventListener('mousemove', function(e) {
+  if (!isDragging) return;
+  // Calculate widths
+  const wrapperRect = document.querySelector('.main-wrapper').getBoundingClientRect();
+  let newLeftWidth = e.clientX - wrapperRect.left;
+  // Minimum panel width, max so console doesn't disappear
+  const minLeft = 100;
+  const maxLeft = wrapperRect.width - 120;
+  if (newLeftWidth < minLeft) newLeftWidth = minLeft;
+  if (newLeftWidth > maxLeft) newLeftWidth = maxLeft;
+  leftSection.style.flex = 'none';
+  leftSection.style.width = newLeftWidth + 'px';
+  consolePanel.style.flex = '1 1 auto';
+  consolePanel.style.width = (wrapperRect.width - newLeftWidth - resizer.offsetWidth) + 'px';
+});
+
+document.addEventListener('mouseup', function(e) {
+  if (isDragging) {
+    isDragging = false;
+    resizer.classList.remove('dragging');
+    document.body.style.cursor = '';
+    document.body.style.userSelect = '';
+  }
+});
 </script>
 </body>
 </html>
