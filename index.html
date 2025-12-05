@@ -120,19 +120,58 @@
 <div class="main-wrapper">
   <div class="left-section">
     <div class="gutter" id="gutter"></div>
-    <div class="elements-panel" id="elements">
-      <span class="token.doctype">&lt;!DOCTYPE html&gt;</span>
-      <span class="token.angle">&lt;</span><span class="token.tag">html</span><span class="token.angle">&gt;</span>
-      <span class="token.angle">&lt;</span><span class="token.tag">head</span><span class="token.angle">&gt;</span>
-      <span class="token.angle">&lt;</span><span class="token.tag">meta</span>
-      <span class="token.attr">charset</span>=<span class="token.value">"UTF-8"</span><span class="token.angle">&gt;</span>
-      <span class="token.angle">&lt;</span><span class="token.tag">title</span><span class="token.angle">&gt;</span>My Awesome Site<span class="token.angle">&lt;/</span><span class="token.tag">title</span><span class="token.angle">&gt;</span>
-      <span class="token.angle">&lt;/</span><span class="token.tag">head</span><span class="token.angle">&gt;</span>
-      <span class="token.angle">&lt;</span><span class="token.tag">body</span><span class="token.angle">&gt;</span>
-      <span class="token.angle">&lt;</span><span class="token.tag">h1</span><span class="token.angle">&gt;</span>Hello, world!<span class="token.angle">&lt;/</span><span class="token.tag">h1</span><span class="token.angle">&gt;</span>
-      <span class="token.angle">&lt;</span><span class="token.tag">p</span><span class="token.angle">&gt;</span>This page just pretends to be the inspector!<span class="token.angle">&lt;/</span><span class="token.tag">p</span><span class="token.angle">&gt;</span>
-      <span class="token.angle">&lt;/</span><span class="token.tag">body</span><span class="token.angle">&gt;</span>
-      <span class="token.angle">&lt;/</span><span class="token.tag">html</span><span class="token.angle">&gt;</span>
+      <div class="elements-panel" id="elements">
+  <span class="token.doctype">&lt;!DOCTYPE html&gt;</span>
+  <span class="token.angle">&lt;</span><span class="token.tag">html</span> <span class="token.attr">lang</span>=<span class="token.value">"en"</span><span class="token.angle">&gt;</span>
+  <span class="token.angle">&lt;</span><span class="token.tag">head</span><span class="token.angle">&gt;</span>
+    <span class="token.angle">&lt;</span><span class="token.tag">meta</span> <span class="token.attr">charset</span>=<span class="token.value">"UTF-8"</span><span class="token.angle">&gt;</span>
+    <span class="token.angle">&lt;</span><span class="token.tag">meta</span> <span class="token.attr">name</span>=<span class="token.value">"viewport"</span> <span class="token.attr">content</span>=<span class="token.value">"width=device-width, initial-scale=1"</span><span class="token.angle">&gt;</span>
+    <span class="token.angle">&lt;</span><span class="token.tag">title</span><span class="token.angle">&gt;</span>My Awesome Site<span class="token.angle">&lt;/</span><span class="token.tag">title</span><span class="token.angle">&gt;</span>
+    <span class="token.angle">&lt;</span><span class="token.tag">link</span> <span class="token.attr">rel</span>=<span class="token.value">"stylesheet"</span> <span class="token.attr">href</span>=<span class="token.value">"styles.css"</span><span class="token.angle">&gt;</span>
+  <span class="token.angle">&lt;/</span><span class="token.tag">head</span><span class="token.angle">&gt;</span>
+  <span class="token.angle">&lt;</span><span class="token.tag">body</span><span class="token.angle">&gt;</span>
+    <span class="token.angle">&lt;</span><span class="token.tag">header</span> <span class="token.attr">class</span>=<span class="token.value">"site-header"</span><span class="token.angle">&gt;</span>
+      <span class="token.angle">&lt;</span><span class="token.tag">nav</span> <span class="token.attr">class</span>=<span class="token.value">"navbar"</span><span class="token.angle">&gt;</span>
+        <span class="token.angle">&lt;</span><span class="token.tag">a</span> <span class="token.attr">href</span>=<span class="token.value">"/"</span> <span class="token.attr">class</span>=<span class="token.value">"logo"</span><span class="token.angle">&gt;</span>Logo<span class="token.angle">&lt;/</span><span class="token.tag">a</span><span class="token.angle">&gt;</span>
+        <span class="token.angle">&lt;</span><span class="token.tag">ul</span> <span class="token.attr">class</span>=<span class="token.value">"menu"</span><span class="token.angle">&gt;</span>
+          <span class="token.angle">&lt;</span><span class="token.tag">li</span><span class="token.angle">&gt;</span><span class="token.angle">&lt;</span><span class="token.tag">a</span> <span class="token.attr">href</span>=<span class="token.value">"#features"</span><span class="token.angle">&gt;</span>Features<span class="token.angle">&lt;/</span><span class="token.tag">a</span><span class="token.angle">&gt;</span><span class="token.angle">&lt;/</span><span class="token.tag">li</span><span class="token.angle">&gt;</span>
+          <span class="token.angle">&lt;</span><span class="token.tag">li</span><span class="token.angle">&gt;</span><span class="token.angle">&lt;</span><span class="token.tag">a</span> <span class="token.attr">href</span>=<span class="token.value">"#pricing"</span><span class="token.angle">&gt;</span>Pricing<span class="token.angle">&lt;/</span><span class="token.tag">a</span><span class="token.angle">&gt;</span><span class="token.angle">&lt;/</span><span class="token.tag">li</span><span class="token.angle">&gt;</span>
+          <span class="token.angle">&lt;</span><span class="token.tag">li</span><span class="token.angle">&gt;</span><span class="token.angle">&lt;</span><span class="token.tag">a</span> <span class="token.attr">href</span>=<span class="token.value">"#about"</span><span class="token.angle">&gt;</span>About<span class="token.angle">&lt;/</span><span class="token.tag">a</span><span class="token.angle">&gt;</span><span class="token.angle">&lt;/</span><span class="token.tag">li</span><span class="token.angle">&gt;</span>
+        <span class="token.angle">&lt;/</span><span class="token.tag">ul</span><span class="token.angle">&gt;</span>
+      <span class="token.angle">&lt;/</span><span class="token.tag">nav</span><span class="token.angle">&gt;</span>
+    <span class="token.angle">&lt;/</span><span class="token.tag">header</span><span class="token.angle">&gt;</span>
+
+    <span class="token.angle">&lt;</span><span class="token.tag">main</span> <span class="token.attr">class</span>=<span class="token.value">"container"</span><span class="token.angle">&gt;</span>
+      <span class="token.angle">&lt;</span><span class="token.tag">aside</span> <span class="token.attr">class</span>=<span class="token.value">"sidebar"</span><span class="token.angle">&gt;</span>
+        <span class="token.angle">&lt;</span><span class="token.tag">h2</span><span class="token.angle">&gt;</span>Sidebar<span class="token.angle">&lt;/</span><span class="token.tag">h2</span><span class="token.angle">&gt;</span>
+        <span class="token.angle">&lt;</span><span class="token.tag">ul</span><span class="token.angle">&gt;</span>
+          <span class="token.angle">&lt;</span><span class="token.tag">li</span><span class="token.angle">&gt;</span>Navigation Link 1<span class="token.angle">&lt;/</span><span class="token.tag">li</span><span class="token.angle">&gt;</span>
+          <span class="token.angle">&lt;</span><span class="token.tag">li</span><span class="token.angle">&gt;</span>Navigation Link 2<span class="token.angle">&lt;/</span><span class="token.tag">li</span><span class="token.angle">&gt;</span>
+        <span class="token.angle">&lt;/</span><span class="token.tag">ul</span><span class="token.angle">&gt;</span>
+      <span class="token.angle">&lt;/</span><span class="token.tag">aside</span><span class="token.angle">&gt;</span>
+
+      <span class="token.angle">&lt;</span><span class="token.tag">section</span> <span class="token.attr">class</span>=<span class="token.value">"content"</span><span class="token.angle">&gt;</span>
+        <span class="token.angle">&lt;</span><span class="token.tag">article</span><span class="token.angle">&gt;</span>
+          <span class="token.angle">&lt;</span><span class="token.tag">h1</span><span class="token.angle">&gt;</span>Hello, world!<span class="token.angle">&lt;/</span><span class="token.tag">h1</span><span class="token.angle">&gt;</span>
+          <span class="token.angle">&lt;</span><span class="token.tag">p</span><span class="token.angle">&gt;</span>This site just pretends to be the Elements inspector.<span class="token.angle">&lt;/</span><span class="token.tag">p</span><span class="token.angle">&gt;</span>
+          <span class="token.angle">&lt;</span><span class="token.tag">img</span> <span class="token.attr">src</span>=<span class="token.value">"https://placekitten.com/400/200"</span> <span class="token.attr">alt</span>=<span class="token.value">"A cute kitten"</span><span class="token.angle">&gt;</span>
+          <span class="token.angle">&lt;</span><span class="token.tag">ul</span><span class="token.angle">&gt;</span>
+            <span class="token.angle">&lt;</span><span class="token.tag">li</span><span class="token.angle">&gt;</span> Lorem ipsum dolor sit amet, consectetur adipiscing elit.<span class="token.angle">&lt;/</span><span class="token.tag">li</span><span class="token.angle">&gt;</span>
+            <span class="token.angle">&lt;</span><span class="token.tag">li</span><span class="token.angle">&gt;</span> Integer nec odio. Praesent libero. Sed cursus ante.<span class="token.angle">&lt;/</span><span class="token.tag">li</span><span class="token.angle">&gt;</span>
+            <span class="token.angle">&lt;</span><span class="token.tag">li</span><span class="token.angle">&gt;</span> Morbi lectus risus, iaculis vel.<span class="token.angle">&lt;/</span><span class="token.tag">li</span><span class="token.angle">&gt;</span>
+          <span class="token.angle">&lt;/</span><span class="token.tag">ul</span><span class="token.angle">&gt;</span>
+          <span class="token.angle">&lt;</span><span class="token.tag">pre</span><span class="token.angle">&gt;</span>
+console.log('Hello world!');
+          <span class="token.angle">&lt;/</span><span class="token.tag">pre</span><span class="token.angle">&gt;</span>
+        <span class="token.angle">&lt;/</span><span class="token.tag">article</span><span class="token.angle">&gt;</span>
+      <span class="token.angle">&lt;/</span><span class="token.tag">section</span><span class="token.angle">&gt;</span>
+    <span class="token.angle">&lt;/</span><span class="token.tag">main</span><span class="token.angle">&gt;</span>
+
+    <span class="token.angle">&lt;</span><span class="token.tag">footer</span> <span class="token.attr">id</span>=<span class="token.value">"footer"</span><span class="token.angle">&gt;</span>
+      <span class="token.angle">&lt;</span><span class="token.tag">p</span><span class="token.angle">&gt;</span>&copy; 2025 My Awesome Site. All rights reserved.<span class="token.angle">&lt;/</span><span class="token.tag">p</span><span class="token.angle">&gt;</span>
+    <span class="token.angle">&lt;/</span><span class="token.tag">footer</span><span class="token.angle">&gt;</span>
+  <span class="token.angle">&lt;/</span><span class="token.tag">body</span><span class="token.angle">&gt;</span>
+  <span class="token.angle">&lt;/</span><span class="token.tag">html</span><span class="token.angle">&gt;</span>
     </div>
   </div>
   <div id="console" class="console-panel">
