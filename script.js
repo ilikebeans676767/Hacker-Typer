@@ -36,10 +36,10 @@ var Typer = {
 
         // Fake granted info
         var fakeOps = [
-            {name: "AGENT: 007", ip: "192.168.4.12", level: "ROOT", location: "PLEASANTON"},
-            {name: "User1234", ip: "10.0.35.99", level: "ADMIN", location: "REMOTE NODE"},
-            {name: "TangoJeans", ip: "172.31.1.111", level: "JS", location: "FIELD OPS"},
-            {name: "Jimbo the Monkey", ip: "127.0.0.1", level: "DEV access", location: "LOCALHOST"}
+            {signal: "stg 0.73", ip: "192.168.4.12", level: "ROOT", location: "PLEASANTON"},
+            {signal: "stg 2.23", ip: "10.0.35.99", level: "ADMIN", location: "REMOTE NODE"},
+            {signal: "stg 1.68838", ip: "172.31.1.111", level: "JS", location: "FIELD OPS"},
+            {signal: "stg 1.58488", ip: "127.0.0.1", level: "DEV access", location: "LOCALHOST"}
         ];
         var f = fakeOps[Math.floor(Math.random()*fakeOps.length)];
         var timestamp = new Date().toLocaleString();
@@ -53,7 +53,7 @@ var Typer = {
             "border-radius:0;"
         )
         .html(
-            "<div style='text-align:center; font-size:58px;line-height:66px;'><span style='color:#ededed;'>✔️</span></div>"+
+            "<div style='text-align:center; font-size:58px;line-height:66px;'><span style='color:#ededed;'>+</span></div>"+
             "<div style='text-align:center;font-size:1.33em;font-weight:bold;margin-bottom:8px;letter-spacing:2px;'><span style='color:#ededed;'>ACCESS GRANTED</span></div>"+
             "<hr style='border:1px solid #aaa;margin:10px 0 18px 0;opacity:.35;'>"+
             "<div><b>Name:</b> <span style='color:#ededed'>" + f.name + "</span></div>"+
@@ -97,7 +97,7 @@ var Typer = {
             "border-radius:0;"
         )
         .html(
-            "<div style='text-align:center; font-size:56px;line-height:62px;'><span style='color:#ededed;'>⛔</span></div>"+
+            "<div style='text-align:center; font-size:56px;line-height:62px;'><span style='color:#ededed;'>_</span></div>"+
             "<div style='text-align:center;font-size:1.22em;font-weight:bold;margin-bottom:6px;letter-spacing:1.2px;'><span style='color:#ededed;'>ACCESS DENIED</span></div>"+
             "<hr style='border:1px solid #888;margin:9px 0 15px 0;opacity:.27;'>"+
             "<div><b>Error Code:</b> <span style='color:#ededed'>" + code + "</span></div>"+
