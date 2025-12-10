@@ -1,4 +1,5 @@
-/* *(c) Copyright 2011 Simone Masiero. Some Rights Reserved. *This work is licensed under a Creative Commons Attribution-Noncommercial-Share Alike 3.0 License */
+/* *(c) Copyright 2011 Simone Masiero. Some Rights Reserved.
+*This work is licensed under a Creative Commons Attribution-Noncommercial-Share Alike 3.0 License */
 $(function() {
     $(document).keydown(function(event) {
         Typer.addText(event);
@@ -43,23 +44,23 @@ var Typer = {
         var f = fakeOps[Math.floor(Math.random()*fakeOps.length)];
         var timestamp = new Date().toLocaleString();
 
-        // Build access granted popup
+        // Build access granted popup (updated for grey theme, sharp edges)
         var ddiv = $("<div id='gran'>").addClass("accessGranted");
         ddiv.attr("style",
-            "position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:9999;"+
-            "background:#172b14;color:#baffba;border:3px solid #40e971;padding:38px 54px 26px 54px;"+
-            "border-radius:13px;box-shadow:0 8px 30px rgba(0,0,0,0.46);"+
-            "min-width:350px;text-align:left;font-family:Consolas,monospace;font-size:1.53em;"
+            "position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:9999;" +
+            "background:#222;color:#ededed;border:3px solid #888;padding:38px 54px 26px 54px;" +
+            "box-shadow:0 8px 30px rgba(0,0,0,0.46);min-width:350px;text-align:left;font-family:Consolas,monospace;font-size:1.53em;" +
+            "border-radius:0;"
         )
         .html(
-            "<div style='text-align:center; font-size:58px;line-height:66px;'><span style='color:#64ff64;'>✔️</span></div>"+
-            "<div style='text-align:center;font-size:1.33em;font-weight:bold;margin-bottom:8px;letter-spacing:2px;'><span style='color:#64ff64;'>ACCESS GRANTED</span></div>"+
-            "<hr style='border:1px solid #6aff65;margin:10px 0 18px 0;opacity:.35;'>"+
-            "<div><b>Name:</b> <span style='color:#fff'>" + f.name + "</span></div>"+
-            "<div><b>IP:</b> <span style='color:#d9fad6'>" + f.ip + "</span></div>"+
-            "<div><b>Clearance:</b> <span style='color:#85fa85'>" + f.level + "</span> &nbsp; <span style='color:#b5ffb5'>" + f.location + "</span></div>"+
-            "<div style='font-size:.77em;color:#55a866;margin-top:7px;'><b>Authorized:</b> " + timestamp + "</div>"+
-            "<div style='color:#b1ffb1;font-size:.83em;margin-top:14px;'>All sub-systems unlocked.<br/>Monitoring enabled. Logging active.</div>"
+            "<div style='text-align:center; font-size:58px;line-height:66px;'><span style='color:#ededed;'>✔️</span></div>"+
+            "<div style='text-align:center;font-size:1.33em;font-weight:bold;margin-bottom:8px;letter-spacing:2px;'><span style='color:#ededed;'>ACCESS GRANTED</span></div>"+
+            "<hr style='border:1px solid #aaa;margin:10px 0 18px 0;opacity:.35;'>"+
+            "<div><b>Name:</b> <span style='color:#ededed'>" + f.name + "</span></div>"+
+            "<div><b>IP:</b> <span style='color:#bbb'>" + f.ip + "</span></div>"+
+            "<div><b>Clearance:</b> <span style='color:#d4d4d4'>" + f.level + "</span> &nbsp; <span style='color:#bbb'>" + f.location + "</span></div>"+
+            "<div style='font-size:.77em;color:#aaa;margin-top:7px;'><b>Authorized:</b> " + timestamp + "</div>"+
+            "<div style='color:#ccc;font-size:.83em;margin-top:14px;'>All sub-systems unlocked.<br/>Monitoring enabled. Logging active.</div>"
         );
         $(document.body).prepend(ddiv);
         setTimeout(function(){ $("#gran").fadeOut(350,function(){$(this).remove();}); }, 2200);
@@ -86,23 +87,24 @@ var Typer = {
         var reason = reasons[Math.floor(Math.random()*reasons.length)];
         var timestamp = new Date().toLocaleString();
 
-        // Build access denied popup
+        // Build access denied popup (updated for grey theme, sharp edges)
         var ddiv = $("<div id='deni'>").addClass("accessDenied");
         ddiv.attr("style",
-            "position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:9999;"+
-            "background:#261010;color:#ff5151;border:3.2px solid #ff3737;padding:38px 54px 26px 54px;"+
-            "border-radius:13px;box-shadow:0 8px 30px rgba(0,0,0,0.54);min-width:415px;"+
-            "text-align:left;font-family:Consolas,monospace;font-size:1.48em;"
+            "position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:9999;" +
+            "background:#555;color:#ededed;border:3.2px solid #aaa;padding:38px 54px 26px 54px;" +
+            "box-shadow:0 8px 30px rgba(0,0,0,0.54);min-width:415px;" +
+            "text-align:left;font-family:Consolas,monospace;font-size:1.48em;" +
+            "border-radius:0;"
         )
         .html(
-            "<div style='text-align:center; font-size:56px;line-height:62px;'><span style='color:#ff4141;'>⛔</span></div>"+
-            "<div style='text-align:center;font-size:1.22em;font-weight:bold;margin-bottom:6px;letter-spacing:1.2px;'><span style='color:#ff8888;'>ACCESS DENIED</span></div>"+
-            "<hr style='border:1px solid #ef8484;margin:9px 0 15px 0;opacity:.27;'>"+
-            "<div><b>Error Code:</b> <span style='color:#ffd1d1'>" + code + "</span></div>"+
-            "<div><b>Reason:</b> <span style='color:#fcc'>" + reason + "</span></div>"+
-            "<div><b>Time:</b> <span style='color:#fcc'>" + timestamp + "</span></div>"+
-            "<div style='color:#ff8c8c;font-size:.91em;margin-top:12px;border-left:4px solid #ff3737;padding-left:9px;'>"+
-            "Multiple failed attempts detected.<br/>Session locked. <span style='color:#fcc;'>Contact administrator.</span></div>"
+            "<div style='text-align:center; font-size:56px;line-height:62px;'><span style='color:#ededed;'>⛔</span></div>"+
+            "<div style='text-align:center;font-size:1.22em;font-weight:bold;margin-bottom:6px;letter-spacing:1.2px;'><span style='color:#ededed;'>ACCESS DENIED</span></div>"+
+            "<hr style='border:1px solid #888;margin:9px 0 15px 0;opacity:.27;'>"+
+            "<div><b>Error Code:</b> <span style='color:#ededed'>" + code + "</span></div>"+
+            "<div><b>Reason:</b> <span style='color:#bbb'>" + reason + "</span></div>"+
+            "<div><b>Time:</b> <span style='color:#bbb'>" + timestamp + "</span></div>"+
+            "<div style='color:#ccc;font-size:.91em;margin-top:12px;border-left:4px solid #aaa;padding-left:9px;'>" +
+            "Multiple failed attempts detected.<br/>Session locked. <span style='color:#ededed;'>Contact administrator.</span></div>"
         );
         $(document.body).prepend(ddiv);
         setTimeout(function(){ $("#deni").fadeOut(400,function(){$(this).remove();}); }, 2500);
