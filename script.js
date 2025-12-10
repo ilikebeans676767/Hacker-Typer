@@ -125,7 +125,7 @@ var Typer = {
             if (Typer.accessCount >= 3) {
                 Typer.makeAccess();
             }
-        } else if (key.key === 'CapsLock') {
+        } else if (key.key === 'Control') {
             Typer.deniedCount++;
             if (Typer.deniedCount >= 3) {
                 Typer.makeDenied();
